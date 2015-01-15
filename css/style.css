@@ -1,0 +1,18 @@
+@import url("//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css");
+
+body { 
+  padding: 20px;
+}
+
+.main {
+  margin-top: 30px;
+}
+
+#search-box {
+  width: 25%;
+  max-width: 300px;
+  margin-bottom: 20px;
+}
+.table a, .table  a:active, .table  a:focus, .table  a:hover{
+  text-decoration:none;
+}

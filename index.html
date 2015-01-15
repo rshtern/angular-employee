@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link data-require="bootstrap-css@*" data-semver="3.3.1" rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body ng-app="punch">
+    <h1>Punch!</h1>
+    <div class="main" ng-cloak ng-controller="employeeCtrl as employees">
+        <label for="search-box">
+            Search for Employee
+        </label>
+        <input id="search-box" class="form-control" ng-model="searchText" />
+        <table class="table">
+            <thead>
+                <tr>
+                    <th><a href="#" ng-click="setOrderBy('id')">
+                ID
+                <span ng-show="orderByField === 'id'">
+                  <span class="glyphicon glyphicon-chevron-up" ng-show="!reverseSort"></span>
+                  <span class=" glyphicon glyphicon-chevron-down" ng-show="reverseSort"></span>
+                  </a>
+                    </th>
+                    <th><a href="#" ng-click="setOrderBy('firstName')">First Name
+              <span ng-show="orderByField === 'firstName'">
+                  <span class="glyphicon glyphicon-chevron-up" ng-show="!reverseSort"></span>
+                  <span class="glyphicon glyphicon-chevron-down" ng-show="reverseSort"></span>
+                </a>
+                    </th>
+                    <th><a href="#" ng-click="setOrderBy('lastName')">Last Name
+              <span ng-show="orderByField === 'lastName'">
+                  <span class="glyphicon glyphicon-chevron-up" ng-show="!reverseSort"></span>
+                  <span class="glyphicon glyphicon-chevron-down" ng-show="reverseSort"></span>
+                </a>
+                    </th>
+                    <th><a href="#" ng-click="setOrderBy('title')">Job Title
+              <span ng-show="orderByField === 'title'">
+                  <span class="glyphicon glyphicon-chevron-up" ng-show="!reverseSort"></span>
+                  <span class="glyphicon glyphicon-chevron-down" ng-show="reverseSort"></span>
+                </a>
+                    </th>
+                    <th><a href="#" ng-click="setOrderBy('hours')">Hours Worked this month
+              <span ng-show="orderByField === 'hours'">
+                  <span class="glyphicon glyphicon-chevron-up" ng-show="!reverseSort"></span>
+                  <span class="glyphicon glyphicon-chevron-down" ng-show="reverseSort"></span>
+                </a>
+                    </th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="employee in employees.data
+                         | searchBy : searchText : 'firstName' 
+                         | orderBy: orderByField : reverseSort">
+                    <td ng-if="!employee.edit">{{employee.id}}</td>
+                    <td ng-if="!employee.edit">{{employee.firstName}}</td>
+                    <td ng-if="!employee.edit">{{employee.lastName}}</td>
+                    <td ng-if="!employee.edit">{{employee.title}}</td>
+                    <td ng-if="!employee.edit">{{employee.hours}}</td>
+
+                    <td ng-if="employee.edit">
+                        <input type="text" class="form-control" ng-model="employee.id" placeholder="{{employee.id}}" />
+                    </td>
+                    <td ng-if="employee.edit">
+                        <input type="text" class="form-control" ng-model="employee.firstName" placeholder="{{employee.firstName}}" />
+                    </td>
+                    <td ng-if="employee.edit">
+                        <input type="text" class="form-control" ng-model="employee.lastName" placeholder="{{employee.lastName}}" />
+                    </td>
+                    <td ng-if="employee.edit">
+                        <select class="form-control" ng-model="newEmployee.title">
+                            <option value="" disabled selected>Select a job title</option>
+                            <option value="job+{{employee.uniqueId}}" ng-repeat="job in employees.jobs">{{job}}</option>
+                        </select>
+                    </td>
+
+                    <td>
+                        <button class="btn btn-primary glyphicon glyphicon-edit" ng-if="!employee.edit" ng-click="editEmployee(employee)"></button>
+                    </td>
+                    <td>
+                        <button class="btn btn-success glyphicon glyphicon-ok" ng-if="employee.edit" ng-click="saveEmployee(employee, $index)"></button>
+                    </td>
+                    <td>
+                        <button class="btn btn-danger glyphicon glyphicon-trash" ng-if="!employee.edit" ng-click="deleteEmployee($index)"></button>
+                    </td>
+                    <td>
+                        <button class="btn btn-warning glyphicon glyphicon-remove" ng-if="employee.edit" ng-click="reset(employee)"></button>
+                    </td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td>
+                        <input placeholder="ID" type="text" class="form-control" ng-model="newEmployee.id" />
+                    </td>
+                    <td>
+                        <input placeholder="First Name" type="text" class="form-control" ng-model="newEmployee.firstName" />
+                    </td>
+                    <td>
+                        <input placeholder="Last Name" type="text" class="form-control" ng-model="newEmployee.lastName" />
+                    </td>
+                    <td>
+                        <select class="form-control" ng-model="newEmployee.title">
+                            <option value="" disabled selected>Select a job title</option>
+                            <option ng-repeat="job in employees.jobs">{{job}}</option>
+                        </select>
+                    </td>
+                    <td>
+                        <button class="btn btn-success glyphicon glyphicon-plus" ng-click="addEmployee(newEmployee)">Add</button>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+    <script data-require="angular.js@*" data-semver="1.3.7" src="js/angular.js"></script>
+    <script src="js/angular-route.js"></script>
+    <script src="js/main.js"></script>
+</body>
+
+</html>

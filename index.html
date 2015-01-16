@@ -71,14 +71,14 @@
                         <input type="text" class="form-control" ng-model="employee.lastName" placeholder="{{employee.lastName}}" />
                     </td>
                     <td ng-if="employee.edit">
-                        <select class="form-control" ng-model="newEmployee.title">
+                        <select class="form-control" ng-model="employee.title">
                             <option value="" disabled selected>Select a job title</option>
-                            <option value="job+{{employee.uniqueId}}" ng-repeat="job in employees.jobs">{{job}}</option>
+                            <option ng-repeat="job in employees.jobs">{{job}}</option>
                         </select>
                     </td>
 
                     <td>
-                        <button class="btn btn-primary glyphicon glyphicon-edit" ng-if="!employee.edit" ng-click="editEmployee(employee)"></button>
+                        <button class="btn btn-primary glyphicon glyphicon-edit" ng-if="!employee.edit" ng-click="editEmployee(employee, $index)"></button>
                     </td>
                     <td>
                         <button class="btn btn-success glyphicon glyphicon-ok" ng-if="employee.edit" ng-click="saveEmployee(employee, $index)"></button>
@@ -87,7 +87,7 @@
                         <button class="btn btn-danger glyphicon glyphicon-trash" ng-if="!employee.edit" ng-click="deleteEmployee($index)"></button>
                     </td>
                     <td>
-                        <button class="btn btn-warning glyphicon glyphicon-remove" ng-if="employee.edit" ng-click="reset(employee)"></button>
+                        <button class="btn btn-warning glyphicon glyphicon-remove" ng-if="employee.edit" ng-click="reset(employee, $index)"></button>
                     </td>
                 </tr>
             </tbody>

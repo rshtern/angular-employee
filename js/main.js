@@ -3,7 +3,7 @@
 
     var app = angular.module('punch', []);
 
-    app.controller('employeeCtrl', ["$scope", function($scope) {
+    app.controller('employeeCtrl', ['$scope', function($scope) {
         this.data = employees;
         var employeeData = this.data;
         $scope.selected = {};
@@ -37,21 +37,28 @@
             $scope.reverseSort = !$scope.reverseSort;
         };
 
-        $scope.editEmployee = function(employee) {
+         $scope.editEmployee = function(employee, index) {
+            // save the data of my object before change for backup and reset
+            $scope.selected = angular.copy(employeeData[index]);
             employee.edit = !employee.edit;
         };
 
-
-        $scope.saveEmployee = function(newEmployee, index) {
-            newEmployee = angular.copy(newEmployee);
-            employeeData[index] = newEmployee;
-            $scope.reset(newEmployee);
+        $scope.saveEmployee = function(employee, index) {
+            employeeData[index].id = employee.id;
+            employeeData[index].firstName = employee.firstName;
+            employeeData[index].lastName = employee.lastName;
+            employeeData[index].title = employee.title;
+            employee.edit = !employee.edit;
         };
 
-        $scope.reset = function(employee) {
+        $scope.reset = function(employee, index) {
             // reset to clean object
-            $scope.selected = {};
+            employee.id = $scope.selected.id;
+            employee.firstName = $scope.selected.firstName;
+            employee.lastName = $scope.selected.lastName;
+            employee.title = $scope.selected.title;
             employee.edit = !employee.edit;
+
         };
 
     }]);
@@ -82,7 +89,6 @@
             title: 'Project Manager',
             hours: 22
         }],
-        selected = {},
         jobs = [
 
             'Front-End Developer',
